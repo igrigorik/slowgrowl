@@ -1,26 +1,26 @@
 require 'growl'
 
 module SlowGrowl
-
-  SLOW = 1000      # default slow alert set to 1000ms
-  STICKY = false   # should error warnings be sticky?
-
   class Railtie < Rails::Railtie
-    initializer "slowgrowl.start_plugin" do |app|
-      ActiveSupport::Notifications.subscribe do |*args|
+    config.slowgrowl = ActiveSupport::OrderedOptions.new
+    config.slowgrowl.warn = 1000    # default slow alert set to 1000ms
+    config.slowgrowl.sticky = false # should error warnings be sticky?
 
+    initializer "slowgrowl.initialize" do |app|
+
+      ActiveSupport::Notifications.subscribe do |*args|
         if Growl.installed?
           event = ActiveSupport::Notifications::Event.new(*args)
 
           sticky = false
           action, type = event.name.split('.')
           alert = case event.duration
-            when (0...SLOW) then
+            when (0...config.slowgrowl.warn) then
               false
-            when (SLOW..SLOW*2) then
+            when (config.slowgrowl.warn..config.slowgrowl.warn*2) then
               :warning
             else
-              sticky = STICKY
+              sticky = config.slowgrowl.sticky
               :error
           end
 
