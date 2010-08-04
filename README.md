@@ -25,6 +25,6 @@ Optional Configuration for SlowGrowl
 Resources
 ---------
 
- * [Rails 3 Internals: Railtie & Creating Plugins](http://www.igvita.com/2010/08/03/rails-3-internals-railtie-creating-plugins/)
+ * [Rails 3 Internals: Railtie & Creating Plugins](http://www.igvita.com/2010/08/04/rails-3-internals-railtie-creating-plugins/)
  * [Rails 3 Notifications API](http://edgeapi.rubyonrails.org/classes/ActiveSupport/Notifications.html)
  * [Railties](http://edgeapi.rubyonrails.org/classes/Rails/Railtie.html)
