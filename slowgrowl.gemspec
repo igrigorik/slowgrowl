@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Ilya Grigorik"]
-  s.date = %q{2010-08-04}
+  s.authors = ["Ilya Grigorik", "Milan Dobrota"]
+  s.date = %q{2010-08-06}
   s.description = %q{Surface slow code paths in your Rails 3 app via Growl}
   s.email = %q{ilya@igvita.com}
   s.extra_rdoc_files = [
@@ -20,26 +20,28 @@ Gem::Specification.new do |s|
      "README.md",
      "Rakefile",
      "VERSION",
-     "lib/slowgrowl.rb"
+     "lib/config.rb",
+     "lib/slowgrowl.rb",
+     "slowgrowl.gemspec"
   ]
   s.homepage = %q{http://github.com/igrigorik/slowgrowl}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{slowgrowl}
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Surface slow code paths in your Rails 3 app via Growl}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<growl>, [">= 0"])
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<ruby-libnotify>, [">= 0"])
     else
-      s.add_dependency(%q<growl>, [">= 0"])
+      s.add_dependency(%q<ruby-libnotify>, [">= 0"])
     end
   else
-    s.add_dependency(%q<growl>, [">= 0"])
+    s.add_dependency(%q<ruby-libnotify>, [">= 0"])
   end
 end
 

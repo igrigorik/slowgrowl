@@ -1,4 +1,8 @@
-require 'growl'
+require File.dirname(__FILE__) + '/config.rb'
+
+DEPENDENT_GEMS.each do |gem_name|
+  require gem_name
+end
 
 module SlowGrowl
   class Railtie < Rails::Railtie
@@ -9,7 +13,7 @@ module SlowGrowl
     initializer "slowgrowl.initialize" do |app|
 
       ActiveSupport::Notifications.subscribe do |*args|
-        if Growl.installed?
+	if NOTIFIER #either growl or ruby-libnotify
           event = ActiveSupport::Notifications::Event.new(*args)
 
           sticky = false
@@ -59,10 +63,24 @@ module SlowGrowl
           end
 
           if alert
-            Growl.send("notify_#{alert}", message, {
-                         :title => "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize],
+
+	    title = "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize]
+
+	    if NOTIFIER == 'growl'
+	      Growl.send("notify_#{alert}", message, {
+                         :title => title,
                          :sticky => sticky
-            })
+	      })
+	    elsif NOTIFIER == 'ruby-libnotify'
+	      @notification.update(title, message, nil) if @notification
+	      @notification = Notify::Notification.new(
+			 "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize],
+			 message,
+			 nil,
+			 nil
+	      )
+	      @notification.show
+	    end
           end
         end
       end

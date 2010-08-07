@@ -1,7 +1,7 @@
 SlowGrowl
 =========
 
-Rails 3 plugin which surfaces slow code paths in your Rails application by integrating with the new Notifications API in Rails 3 with your system Growl notification service. By default, any activity which takes longer than one second, will generate a growl alert, with the description of the action, time taken, and other meta data. A preview in action:
+Rails 3 plugin which surfaces slow code paths in your Rails application by integrating with the new Notifications API in Rails 3 with your system Growl(OSX) or libnotify(Linux) notification service. By default, any activity which takes longer than one second, will generate a growl alert, with the description of the action, time taken, and other meta data. A preview in action:
 
 ![slowgrowl notification](http://img.skitch.com/20100804-8w1wte8bad7tby418kmucs4hsm.png)
 
