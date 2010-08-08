@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/config.rb'
+require 'platform'
 
-DEPENDENT_GEMS.each do |gem_name|
+SlowGrowl::GEMS.each do |gem_name|
   require gem_name
 end
 
@@ -11,9 +11,9 @@ module SlowGrowl
     config.slowgrowl.sticky = false # should error warnings be sticky?
 
     initializer "slowgrowl.initialize" do |app|
-
       ActiveSupport::Notifications.subscribe do |*args|
-	if NOTIFIER #either growl or ruby-libnotify
+
+        if NOTIFIER
           event = ActiveSupport::Notifications::Event.new(*args)
 
           sticky = false
@@ -63,25 +63,21 @@ module SlowGrowl
           end
 
           if alert
+            title = "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize]
 
-	    title = "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize]
+            case NOTIFIER
+              when :growl
+                if Growl.installed?
+                  Growl.send("notify_#{alert}", message, {:title => title, :sticky => sticky})
+                end
 
-	    if NOTIFIER == 'growl'
-	      Growl.send("notify_#{alert}", message, {
-                         :title => title,
-                         :sticky => sticky
-	      })
-	    elsif NOTIFIER == 'ruby-libnotify'
-	      @notification.update(title, message, nil) if @notification
-	      @notification = Notify::Notification.new(
-			 "%1.fms - %s : %s" % [event.duration, action.humanize, type.camelize],
-			 message,
-			 nil,
-			 nil
-	      )
-	      @notification.show
-	    end
+              when :libnotify
+                @notification.update(title, message, nil) if @notification
+                @notification = Notify::Notification.new(title, message, nil, nil)
+                @notification.show
+            end
           end
+
         end
       end
 

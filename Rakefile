@@ -1,6 +1,6 @@
-require 'lib/config'
 require 'rake'
 require 'spec/rake/spectask'
+require 'lib/platform'
 
 begin
   require 'jeweler'
@@ -11,9 +11,10 @@ begin
     gemspec.email = 'ilya@igvita.com'
     gemspec.homepage = 'http://github.com/igrigorik/slowgrowl'
     gemspec.authors = ['Ilya Grigorik', 'Milan Dobrota']
-    gemspec.add_dependency(NOTIFIER_GEM)
     gemspec.rubyforge_project = 'slowgrowl'
-    gemspec.files = ['Gemfile', 'README.md', 'Rakefile', 'VERSION', 'lib/**/*.rb', 'slowgrowl.gemspec']
+    SlowGrowl::GEMS.each do |gem|
+      gemspec.add_dependency(gem)
+    end
   end
 
   Jeweler::GemcutterTasks.new

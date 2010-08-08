@@ -1,8 +1,9 @@
-require 'lib/config'
+require 'lib/platform'
 
-source 'http://rubygems.org'
+source :rubygems
+source :gemcutter
 
-DEPENDENT_GEMS.each do |gem_name|
+SlowGrowl::GEMS.each do |gem_name|
   gem gem_name
 end
 
