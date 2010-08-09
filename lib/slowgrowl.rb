@@ -1,7 +1,7 @@
 require 'platform'
 
-SlowGrowl::GEMS.each do |gem_name|
-  require gem_name
+SlowGrowl::GEMS.each do |dep|
+  require (dep[:require] || dep[:name])
 end
 
 module SlowGrowl
@@ -72,9 +72,7 @@ module SlowGrowl
                 end
 
               when :libnotify
-                @notification.update(title, message, nil) if @notification
-                @notification = Notify::Notification.new(title, message, nil, nil)
-                @notification.show
+                Notify::Notification.new(title, message, nil, nil).show
             end
           end
 
