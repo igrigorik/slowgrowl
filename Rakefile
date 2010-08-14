@@ -1,22 +1,9 @@
 require 'rake'
 require 'spec/rake/spectask'
-require 'lib/platform'
 
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = 'slowgrowl'
-    gemspec.summary = 'Surface slow code paths in your Rails 3 app via Growl'
-    gemspec.description = gemspec.summary
-    gemspec.email = 'ilya@igvita.com'
-    gemspec.homepage = 'http://github.com/igrigorik/slowgrowl'
-    gemspec.authors = ['Ilya Grigorik', 'Milan Dobrota']
-    gemspec.rubyforge_project = 'slowgrowl'
-    SlowGrowl::GEMS.each do |dep|
-      gemspec.add_dependency(dep[:name])
-    end
-  end
-
+  Jeweler::Tasks.new
   Jeweler::GemcutterTasks.new
 rescue LoadError => e
   puts e.inspect
