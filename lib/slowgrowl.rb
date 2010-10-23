@@ -39,13 +39,14 @@ module SlowGrowl
                     #  :formats=>[:html], :method=>"GET", :path=>"/widgets", :status=>200, :view_runtime=>52.25706100463867,
                     #  :db_runtime=>0}
 
+
                     if e[:exception]
                       "%s#%s.\n\n%s" % [
                         e[:controller], e[:action], e[:exception].join(', ')
                       ]
                     else
                       "%s#%s (%s).\nDB: %.1f, View: %.1f" % [
-                        e[:controller], e[:action], e[:status], e[:db_runtime], e[:view_runtime]
+                        e[:controller], e[:action], e[:status], (e[:db_runtime] || 0), (e[:view_runtime] || 0)
                       ]
                     end
 
