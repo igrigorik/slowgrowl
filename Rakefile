@@ -1,11 +1,3 @@
-require 'rake'
-require 'spec/rake/spectask'
+require 'bundler'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new
-  Jeweler::GemcutterTasks.new
-rescue LoadError => e
-  puts e.inspect
-  puts 'Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org'
-end
+Bundler::GemHelper.install_tasks
